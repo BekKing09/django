@@ -9,3 +9,12 @@ class Students(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)    
+
+
+    def __str__(self):
+        return f"dtudent: {self.name} - #{self.id}"
+    
+    class Meta:
+        verbose_name = "O'quvchi"
+        verbose_name_plural = "O'quvchilar"
+        ordering = ["id"]
