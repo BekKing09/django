@@ -3,8 +3,8 @@ from main.models import Course
 from django.http import HttpRequest
 import requests
 
-TOKEN = "8218998010:AAFAjzveRkI9bTKTQVywm1GpPjCNsEmaVj0"
-CHAT_ID = "7152580871"
+TOKEN = ""
+CHAT_ID = ""
 
 def index_view(request: HttpRequest):
     if request.method == "POST":
