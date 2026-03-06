@@ -49,3 +49,6 @@ class Course(models.Model):
         verbose_name = "Kurs"
         verbose_name_plural = "Kurslar"
         ordering = ["id"]
+
+
+

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Xeron School{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --accent-color: #4cc9f0;
+            --bg-light: #f8f9fe;
+        }
+        body { background-color: var(--bg-light); font-family: 'Inter', sans-serif; color: #333; }
+        .navbar { background: rgba(255, 255, 255, 0.8) !important; backdrop-filter: blur(10px); }
+        .navbar-brand { font-weight: 800; letter-spacing: 1px; color: var(--primary-color) !important; }
+
+        .course-card {
+            border: none;
+            border-radius: 20px;
+            background: #fff;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(67, 97, 238, 0.15);
+        }
+        .price-tag {
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        
+        .filter-sidebar {
+            background: white;
+            border-radius: 20px;
+            border: 1px solid #edf2f7;
+            position: sticky;
+            top: 100px;
+        }
+        .btn-filter {
+            background: var(--primary-color);
+            border: none;
+            border-radius: 12px;
+            padding: 12px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .btn-filter:hover { background: #3046c9; transform: scale(1.02); }
+
+        /* Natijalar tugmasi uchun effekt */
+        .btn-results {
+            transition: all 0.3s ease;
+            border: 2px solid #212529;
+        }
+        .btn-results:hover {
+            background-color: #212529;
+            color: white;
+            transform: translateX(5px);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top shadow-sm mb-5">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="fa-solid fa-rocket me-2"></i>XERON <span class="text-dark">SCHOOL</span></a>
+        </div>
+    </nav>
+
+    <div class="container pb-5">
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        function setModalData(id, title) {
+            const idField = document.getElementById('modal_course_id');
+            const titleField = document.getElementById('modal_course_title');
+            if(idField) idField.value = id;
+            if(titleField) titleField.value = title;
+        }
+    </script>
+</body>
+</html>

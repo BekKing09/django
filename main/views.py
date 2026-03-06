@@ -28,7 +28,25 @@ def index_view(request: HttpRequest):
         })
 
         return redirect("index")
-    return render(request, "main/index.html")
+    courses = Course.objects.all()
+
+    search = request.GET.get("search", None)
+
+    price_from = request.GET.get("price_from", None)
+    price_to = request.GET.get("price_to", None)
+    if price_from or price_to:
+        courses = Course.objects.filter(price__gte=price_from, price__lte=price_to)
+    if search:
+        courses = Course.objects.filter(title__icontains=search)
+
+    context = {
+        "courses": courses,
+        "search": search if search else ""
+    }
+    return render(request, "main/index.html", context)
 
 def about_devoloper(request):
     return render(request, "main/about.html")
+
+
+

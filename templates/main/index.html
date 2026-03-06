@@ -1,204 +1,82 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="uz">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevPortfolio | {{ request.user.first_name|default:"Backend" }}</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+{% extends 'main/base.html' %}
 
-    <style>
-        :root {
-            --primary-color: #00d2ff;
-            --secondary-color: #3a7bd5;
-            --dark-bg: #0f172a;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-        }
+{% block content %}
+<div class="text-center mb-5">
+    <h1 class="display-4 fw-bold">Bilimingizni <span class="text-primary">Kengaytiring</span></h1>
+    <p class="text-muted">Eng sara kurslarimiz bilan kelajagingizni quring</p>
+</div>
 
-        body {
-            background-color: var(--dark-bg);
-            color: #e2e8f0;
-            font-family: 'Poppins', sans-serif;
-            overflow-x: hidden;
-        }
-
-        /* Glassmorphism Card */
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            transition: all 0.4s ease;
-        }
-
-        /* Xabarlar (Alerts) uchun maxsus stil */
-        .alert-glass {
-            background: rgba(40, 167, 69, 0.15);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(40, 167, 69, 0.3);
-            color: #d1e7dd;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .gradient-text {
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
-        }
-
-        /* Navigatsiya */
-        .navbar {
-            backdrop-filter: blur(10px);
-            background: rgba(15, 23, 42, 0.9);
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        /* Forma Elementlari */
-        .form-control, .form-select {
-            background: rgba(255, 255, 255, 0.05) !important;
-            border: 1px solid var(--glass-border) !important;
-            color: white !important;
-            border-radius: 12px;
-            padding: 12px;
-        }
-
-        .form-control:focus {
-            border-color: var(--primary-color) !important;
-            box-shadow: 0 0 15px rgba(0, 210, 255, 0.2) !important;
-        }
-
-        .btn-custom {
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            border: none;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-
-        .btn-custom:hover {
-            box-shadow: 0 5px 20px rgba(0, 210, 255, 0.4);
-            transform: scale(1.02);
-        }
-
-        .hero-section {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding-top: 100px;
-        }
-    </style>
-</head>
-<body>
-
-    <nav class="navbar navbar-expand-lg py-3 fixed-top">
-        <div class="container">
-            <a class="navbar-brand text-white fw-bold fs-3" href="#">PENTESTERJON<span class="text-info">.</span></a>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li><a class="nav-link text-white-50" href="#home">Asosiy</a></li>
-                    <li><a class="nav-link text-white-50" href="#projects">Loyihalar</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container" style="margin-top: 100px; position: relative; z-index: 1000;">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-dismissible fade show animate__animated animate__fadeInDown alert-glass d-flex align-items-center" role="alert">
-                    <i class="fas fa-check-circle me-3 fa-lg"></i>
-                    <div>
-                        <strong>Muvaffaqiyatli!</strong> {{ message }}
+<div class="row">
+    <div class="col-lg-3 mb-4">
+        <div class="filter-sidebar p-4 shadow-sm">
+            <h5 class="fw-bold mb-4"><i class="fa-solid fa-sliders me-2 text-primary"></i> Saralash</h5>
+            <form method="get">
+                <div class="mb-4">
+                    <label class="form-label small fw-bold text-uppercase text-muted">Kurs nomi</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-0"><i class="fa-solid fa-search"></i></span>
+                        <input type="text" name="search" class="form-control bg-light border-0" placeholder="Masalan: Python" value="{{search}}">
                     </div>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-            {% endfor %}
-        {% endif %}
+
+                <div class="mb-4">
+                    <label class="form-label small fw-bold text-uppercase text-muted">Narx oralig'i</label>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <input type="number" name="price_from" class="form-control bg-light border-0" placeholder="Dan">
+                        </div>
+                        <div class="col-6">
+                            <input type="number" name="price_to" class="form-control bg-light border-0" placeholder="Gacha">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-filter btn-primary w-100 shadow-sm">
+                    Natijalarni ko'rish
+                </button>
+                <a href="." class="btn btn-light w-100 mt-2 py-2 text-muted small">Filtrni tozalash</a>
+            </form>
+        </div>
     </div>
 
-    <section id="home" class="hero-section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 mb-5">
-                    <h5 class="text-info mb-3">Backend Developer</h5>
-                    <h1 class="display-3 fw-bold mb-4">Loyihalaringiz uchun <span class="gradient-text">Mukammal Kod</span></h1>
-                    <p class="lead text-white-50">Django framework orqali xavfsiz va tezkor backend tizimlarini yaratib beraman.</p>
-                </div>
-
-                <div class="col-lg-5 offset-lg-1">
-                    <div class="glass-card p-4 p-md-5 shadow-lg">
-                        <h3 class="mb-4 fw-bold text-center"><i class="fas fa-plus-circle text-info me-2"></i>Kurs Qo'shish</h3>
+    <div class="col-lg-9">
+        <div class="row g-4">
+            {% for kurs in courses %}
+            <div class="col-md-6 col-xl-4">
+                <div class="card course-card h-100 p-3">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="rounded-circle bg-light p-3 me-3 text-primary">
+                            <i class="fa-solid fa-code fa-2x"></i>
+                        </div>
+                        <span class="badge bg-soft-primary text-primary border border-primary-subtle">Online Kurs</span>
+                    </div>
+                    
+                    <h5 class="fw-bold text-dark mb-3">{{ kurs.title }}</h5>
+                    
+                    <div class="mt-auto">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="price-tag">{{ kurs.price }} so'm</div>
+                        </div>
                         
-                        <form method="post" class="row g-3">
-                            {% csrf_token %}
-                            <div class="col-12">
-                                <label class="form-label small text-white-50">Kurs nomi</label>
-                                <input type="text" class="form-control" placeholder="Masalan: Django Pro" required name="course_name">
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <label class="form-label small text-white-50">Kurs narxi</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-transparent border-secondary text-info">$</span>
-                                    <input type="number" class="form-control" min="0" name="course_price" required>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label small text-white-50">Chegirma turi</label>
-                                <select class="form-select" name="discount_type">
-                                    <option value="flex">Aniq summa</option>
-                                    <option value="percent">Foizda (%)</option>
-                                </select>
-                            </div>
-
-                            <div class="col-12">
-                                <label class="form-label small text-white-50">Chegirma miqdori</label>
-                                <input type="number" class="form-control" min="0" value="0" name="discount">
-                            </div>
-
-                            <div class="col-12 mt-4">
-                                <button class="btn btn-custom w-100 py-3" type="submit">Kursni Saqlash</button>
-                            </div>
-                        </form>
+                        {% if kurs.discount %}
+                        <div class="mt-2 small text-danger fw-bold">
+                            <i class="fa-solid fa-fire-flame-curved me-1"></i>
+                            {{ kurs.discount }} {% if kurs.discount_type == 'percent' %}%{% else %}so'm{% endif %} chegirma!
+                        </div>
+                        {% endif %}
+                        
+                        <hr class="my-3 opacity-50">
+                        <a href="#" class="btn btn-outline-dark w-100 rounded-pill py-2 fw-bold small">Kursga yozilish</a>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section id="projects" class="py-5">
-        <div class="container">
-            <h2 class="text-center fw-bold mb-5">Mening Loyihalarim</h2>
-            <div class="row g-4">
-                {% for project in projects %}
-                <div class="col-md-4">
-                    <div class="glass-card p-3 h-100 text-center">
-                        <i class="fas fa-layer-group fa-3x text-info mb-3"></i>
-                        <h5>{{ project.title }}</h5>
-                        <p class="small text-white-50">{{ project.description }}</p>
-                    </div>
-                </div>
-                {% empty %}
-                <div class="col-12 text-center text-white-50">Hozircha loyihalar yo'q.</div>
-                {% endfor %}
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <img src="https://cdn-icons-png.flaticon.com/512/6134/6134065.png" width="100" class="mb-3 opacity-50">
+                <h4 class="text-muted">Hozircha kurslar mavjud emas</h4>
             </div>
+            {% endfor %}
         </div>
-    </section>
-
-    <footer class="py-5 text-center border-top border-secondary mt-5">
-        <p class="text-white-50 mb-0">&copy; 2026 Developer Portfolio. Hamma huquqlar himoyalangan.</p>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    </div>
+</div>
+{% endblock %}
