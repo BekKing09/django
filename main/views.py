@@ -2,9 +2,9 @@ from django.shortcuts import render, redirect
 from main.models import Course
 from django.http import HttpRequest
 import requests
+from main.config import TOKEN, CHAT_ID
+from main.models import Students
 
-TOKEN = ""
-CHAT_ID = ""
 
 def index_view(request: HttpRequest):
     if request.method == "POST":
@@ -50,3 +50,46 @@ def about_devoloper(request):
 
 
 
+def course_detail(request, pk):
+    course = Course.objects.get(id=pk)
+    
+    if request.method == "POST":
+        student_name = request.POST.get("name")
+        phone = request.POST.get("phone")
+        age = request.POST.get("age")
+        birth_date = request.POST.get("birth_date")
+        
+        
+        student, created = Students.objects.get_or_create(
+            name=student_name,
+            defaults={
+                'age': age if age else 5,
+                'brith_data': birth_date if birth_date else None
+            }
+        )
+        
+        
+        
+        student.Courses.add(course)
+        
+        
+        status = "Yangi o'quvchi" if created else "Eski o'quvchi (yangi kursga)"
+        url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
+        text = (
+            f"🔔 {status} ro'yxatdan o'tdi!\n\n"
+            f"👤 Ismi: {student_name}\n"
+            f"📞 Tel: {phone}\n"
+            f"🎂 Yosh: {age}\n"
+            f"📅 Tug'ilgan kun: {birth_date}\n"
+            f"📚 Tanlagan kursi: {course.title}"
+        )
+        
+        try:
+            requests.get(url=url, params={"chat_id": CHAT_ID, "text": text})
+        except:
+            pass
+
+        return redirect("index")
+
+    context = {"course": course}
+    return render(request, "main/course_detail.html", context)

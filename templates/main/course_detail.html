@@ -1,0 +1,131 @@
+{% extends 'main/base.html' %}
+
+{% block title %}{{ course.title }} - Xeron School{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index' %}" class="text-decoration-none text-primary">Bosh sahifa</a></li>
+            <li class="breadcrumb-item active">{{ course.title }}</li>
+        </ol>
+    </nav>
+
+    <div class="row g-5">
+        <div class="col-lg-8">
+            <div class="bg-white p-4 p-md-5 rounded-4 shadow-sm mb-4 border-0">
+                <div class="d-flex align-items-center mb-4">
+                    <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-bold me-3">
+                        <i class="fa-solid fa-graduation-cap me-1"></i> Professional Kurs
+                    </span>
+                    <span class="text-muted small"><i class="fa-solid fa-id-badge me-1"></i> ID: #{{ course.id }}</span>
+                </div>
+                
+                <h1 class="display-5 fw-bold mb-4">{{ course.title }}</h1>
+                
+                <h4 class="fw-bold mb-3">Kurs haqida</h4>
+                <p class="lead text-muted mb-4">
+                    Ushbu "{{ course.title }}" kursi orqali siz o'z sohangizning eng kerakli ko'nikmalarini egallaysiz. 
+                    Kurs narxi va chegirmalar haqida batafsil ma'lumot o'ng tomondagi paneldan o'rin olgan.
+                </p>
+
+                <div class="alert alert-info border-0 rounded-4 p-4">
+                    <h5 class="fw-bold"><i class="fa-solid fa-circle-info me-2"></i> Muhim ma'lumot</h5>
+                    <p class="mb-0">Ushbu kurs uchun hozirda ro'yxatdan o'tish ochiq. Joylar soni cheklangan bo'lishi mumkin.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden sticky-top" style="top: 100px;">
+                <div class="bg-primary text-white text-center py-5">
+                    <i class="fa-solid fa-rocket fa-4x mb-3"></i>
+                    <h3 class="fw-bold">Xeron School</h3>
+                </div>
+                
+                <div class="card-body p-4">
+                    <div class="mb-4">
+                        {% if course.discount %}
+                            <div class="text-muted text-decoration-line-through small">{{ course.price }} so'm</div>
+                            <div class="h2 fw-bold text-primary mb-0">{{ course.final_price }} so'm</div>
+                            <span class="badge bg-danger">
+                                -{{ course.discount }}{% if course.discount_type == "percent" %}%{% else %} so'm{% endif %} chegirma
+                            </span>
+                        {% else %}
+                            <div class="h2 fw-bold text-dark">{{ course.price }} so'm</div>
+                        {% endif %}
+                    </div>
+                    
+                    <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold mb-3 shadow-sm" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#enrollModal">
+                        Kursga yozilish
+                    </button>
+                    
+                    <hr class="my-4">
+                    
+                    <h6 class="fw-bold mb-3">Kurs xususiyatlari:</h6>
+                    <ul class="list-unstyled small text-muted">
+                        <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i> To'liq kursga kirish</li>
+                        <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i> Amaliy topshiriqlar</li>
+                        <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i> Mentorlik yordami</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="enrollModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4 shadow">
+            <div class="modal-header border-0 pb-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4 pt-0">
+                <div class="text-center mb-4">
+                    <div class="bg-primary-subtle text-primary d-inline-block p-3 rounded-circle mb-3">
+                        <i class="fa-solid fa-paper-plane fa-2x"></i>
+                    </div>
+                    <h4 class="fw-bold">A'zo bo'lish</h4>
+                    <p class="text-muted">"{{ course.title }}" kursi uchun so'rov qoldiring</p>
+                </div>
+                <form action="{% url 'course_detail' course.id %}" method="post">
+    {% csrf_token %}
+    
+    <div class="mb-3">
+        <label class="form-label fw-bold small">Ism-familiyangiz</label>
+        <input type="text" name="name" class="form-control bg-light border-0 rounded-3 py-2" placeholder="Masalan: Ali Valiyev" required>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold small">Yoshingiz</label>
+            <input type="number" name="age" class="form-control bg-light border-0 rounded-3 py-2" placeholder="20" required>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold small">Tug'ilgan kuningiz</label>
+            <input type="date" name="birth_date" class="form-control bg-light border-0 rounded-3 py-2" required>
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <label class="form-label fw-bold small">Telefon raqamingiz</label>
+        <input type="tel" name="phone" class="form-control bg-light border-0 rounded-3 py-2" placeholder="+998 90 123 45 67" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow">
+        So'rov yuborish
+    </button>
+</form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-primary-subtle { background-color: #eef2ff !important; }
+    .text-primary { color: #4361ee !important; }
+    .btn-primary { background-color: #4361ee !important; border-color: #4361ee !important; }
+</style>
+{% endblock %}
